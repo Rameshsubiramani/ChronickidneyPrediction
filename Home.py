@@ -37,13 +37,13 @@ if login_button:
     else:
         st.error("Login failed. Please check your credentials.")
 
-if authentication_status == False:
+if login_button == False:
     st.error("Username/password is incorrect")
     
-if authentication_status == None:
+if login_button == None:
     st.warning("Please enter your username and password")
 
-if authentication_status:
+if login_button:
     st.sidebar.success("Select a Diagnosis from above.")
     authenticator.logout("Logout", "sidebar")
     st.markdown("<p style='text-align: justify; color: #1a1aff; font-weight: normal;'>- To learn more about founder of VDRL in detail, click on this link: <a href='https://visheshgupta-ba.github.io/VisheshGupta/' style='color: red;'>https://visheshgupta-ba.github.io/VisheshGupta/</a></p>", unsafe_allow_html=True)

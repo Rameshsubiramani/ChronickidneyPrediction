@@ -14,36 +14,46 @@ import pandas as pd
 import plotly.express as px
 import streamlit_authenticator as stauth
 
-import streamlit as st
 
-# Define the correct username and password
-correct_username = "your_username"
-correct_password = "your_password"
+st.set_page_config(
+    page_title="Vishesh Diagnostic & Research Labs",
+    page_icon="microscope",
+)
 
-# Create a Streamlit app
-st.title("Login Page")
+st.markdown("<h1 style='text-align: center; color: #e6005c;'>Vishesh Diagnostic & Research Labs</h1>", unsafe_allow_html=True)
 
-# Add input fields for username and password
-username = st.text_input("Username")
-password = st.text_input("Password", type="password")
+st.write("<p style='font-size: medium;'>@ Created by Vishesh Gupta</p>", unsafe_allow_html=True)
 
-# Create a button to submit the form
-login_button = st.button("Login")
+st.write("""
+        <div style="text-align: justify; color: #1a1aff; font-weight: bold;">
+            <p>
+            Vishesh Diagnostics and Research labs began its operations in 2023 from Northeastern University, Boston, and has become a pioneer in the field of Health, Data, and Machine Learning. The journey began with a lab and predictions of diagnosis, and has today reached a stage where VDRL is in the top league in terms of the range and quality of diagnostic facilities, with the capability to perform more than 100 tests in-house. Vishesh Diagnostic & Research Centre offers a complete range of diagnostic facilities.
+            </p>
+        </div>
+        <br>
+    """, unsafe_allow_html=True)
 
-# Check if the button is clicked
-if login_button:
-    if username == correct_username and password == correct_password:
-        st.success("Login successful!")
-    else:
-        st.error("Login failed. Please check your credentials.")
 
-if login_button == False:
+names = ["Vishesh", "Radhakrishnan", "Sagar", "Jin Xuemin"]
+usernames = ['vishesh', 'sriradhakrishnan', "s.kamarthi", "j.xuemin"]
+
+file_path = Path(__file__).parent / "hashed1_pw.pkl"
+with file_path.open("rb") as file:
+    hashed_passwords = pickle.load(file)
+
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
+                                    "risk_analysis", "abcdef", cookie_expiry_days =30)
+
+
+name, authentication_status, username = authenticator.login("Login", "main")
+
+if authentication_status == False:
     st.error("Username/password is incorrect")
     
-if login_button == None:
+if authentication_status == None:
     st.warning("Please enter your username and password")
 
-if login_button:
+if authentication_status:
     st.sidebar.success("Select a Diagnosis from above.")
     authenticator.logout("Logout", "sidebar")
     st.markdown("<p style='text-align: justify; color: #1a1aff; font-weight: normal;'>- To learn more about founder of VDRL in detail, click on this link: <a href='https://visheshgupta-ba.github.io/VisheshGupta/' style='color: red;'>https://visheshgupta-ba.github.io/VisheshGupta/</a></p>", unsafe_allow_html=True)
@@ -134,6 +144,3 @@ if login_button:
     
     
     
-
-
-

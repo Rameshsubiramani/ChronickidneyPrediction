@@ -14,46 +14,28 @@ import pandas as pd
 import plotly.express as px
 import streamlit_authenticator as stauth
 
+import streamlit as st
 
-st.set_page_config(
-    page_title="Vishesh Diagnostic & Research Labs",
-    page_icon="microscope",
-)
+# Define the correct username and password
+correct_username = "your_username"
+correct_password = "your_password"
 
-# Define the sidebar layout
-st.sidebar.write("Contact us:")
-st.sidebar.write("- Phone: <a href='tel:[8573130666]'><i class='fas fa-phone'></i> [8573130666]</a>", unsafe_allow_html=True)
-st.sidebar.write("- Email: <a href='mailto:[gupta.vishe@northeastern.edu]'><i class='far fa-envelope'></i> [gupta.vishe@northeastern.edu]</a>", unsafe_allow_html=True)
-st.sidebar.write("- GitHub: <a href='https://github.com/visheshgupta-BA/' target='_blank'><i class='fab fa-github'></i> Vishesh Gupta's GitHub</a>", unsafe_allow_html=True)
-st.sidebar.write("- Website: <a href='https://visheshgupta-ba.github.io/VisheshGupta/' target='_blank'><i class='fas fa-globe'></i> Vishesh Gupta's website</a>", unsafe_allow_html=True)
+# Create a Streamlit app
+st.title("Login Page")
 
+# Add input fields for username and password
+username = st.text_input("Username")
+password = st.text_input("Password", type="password")
 
-st.markdown("<h1 style='text-align: center; color: #e6005c;'>Vishesh Diagnostic & Research Labs</h1>", unsafe_allow_html=True)
+# Create a button to submit the form
+login_button = st.button("Login")
 
-st.write("<p style='font-size: medium;'>@ Created by Vishesh Gupta</p>", unsafe_allow_html=True)
-
-st.write("""
-        <div style="text-align: justify; color: #1a1aff; font-weight: bold;">
-            <p>
-            Vishesh Diagnostics and Research labs began its operations in 2023 from Northeastern University, Boston, and has become a pioneer in the field of Health, Data, and Machine Learning. The journey began with a lab and predictions of diagnosis, and has today reached a stage where VDRL is in the top league in terms of the range and quality of diagnostic facilities, with the capability to perform more than 100 tests in-house. Vishesh Diagnostic & Research Centre offers a complete range of diagnostic facilities.
-            </p>
-        </div>
-        <br>
-    """, unsafe_allow_html=True)
-
-
-names = ["Vishesh", "Radhakrishnan", "Sagar", "Jin Xuemin"]
-usernames = ['vishesh', 'sriradhakrishnan', "s.kamarthi", "j.xuemin"]
-
-file_path = Path(__file__).parent / "hashed1_pw.pkl"
-with file_path.open("rb") as file:
-    hashed_passwords = pickle.load(file)
-
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
-                                    "risk_analysis", "abcdef", cookie_expiry_days =30)
-
-
-name, authentication_status, username = authenticator.login("Login", "main")
+# Check if the button is clicked
+if login_button:
+    if username == correct_username and password == correct_password:
+        st.success("Login successful!")
+    else:
+        st.error("Login failed. Please check your credentials.")
 
 if authentication_status == False:
     st.error("Username/password is incorrect")

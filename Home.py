@@ -1,32 +1,31 @@
 import streamlit as st
-# Define a function for user authentication
-def authenticate(username, password):
-    # You can replace this logic with your authentication method
-    if username == "admin" and password == "password":
-        return True
-    else:
-        return False
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
-# Streamlit app layout
-st.title("Login Page Example")
+# Load the CKD prediction model
+model = RandomForestClassifier()
+model.load_model('ckd_prediction_model.pkl')
 
-# Create input widgets for username and password
-username = st.text_input("Username")
-password = st.text_input("Password", type="password")
+# Define the user interface
+st.title('CKD Prediction App')
 
-# Check if the user clicked the login button
-if st.button("Login"):
-    # Authenticate the user
-    if authenticate(username, password):
-        st.success("Login successful!")
-        logged_in = True
-    else:
-        st.error("Login failed. Please check your credentials.")
-        logged_in = False
+# Get the user input
+age = st.number_input('Age')
+sex = st.selectbox('Sex', ['Male', 'Female'])
+blood_pressure = st.number_input('Blood pressure (mmHg)')
+serum_creatinine = st.number_input('Serum creatinine (mg/dL)')
 
-# Conditional rendering based on authentication
-if logged_in:
-    st.write("Welcome to the secured area.")
-    # Add your secure content here.
+# Make a prediction
+prediction = model.predict_proba([
+    [age, sex, blood_pressure, serum_creatinine]
+])[0][1]
+
+# Display the prediction
+st.write('Probability of having CKD:', prediction)
+
+# Provide feedback to the user
+if prediction > 0.5:
+    st.write('Your risk of having CKD is high. Please see a doctor for further evaluation.')
 else:
-    st.write("You are not logged in. Please login to access the content.")
+    st.write('Your risk of having CKD is low. However, it is important to maintain a healthy lifestyle and get regular checkups to monitor your kidney function.')
